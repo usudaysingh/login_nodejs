@@ -1,0 +1,87 @@
+<html ng-app = "myApp" >
+<head>
+	<script src="angular.min.js"></script>
+	<script src="script.js"></script>
+</head>
+<body ng-controller = "myController">
+
+	Rows to display : <input type="number" step="1", min="0", max="3" ng-model ="row_count"/>
+	<br>	
+	<br>
+	Order by : <select ng-model="sortby"> <!-- Sorting -->
+					<option value="name">Name</option>
+					<option value="likes">Likes</option>
+					<option value="-name">Desc Name</option>
+				</select>
+	<br>
+	<br>
+	<input type="checkbox" ng-model="hide_likes" />Hide Likes
+	<br>
+	<br>
+	Search : <input type="text" placeholder="Search technologies" ng-model="search_value" /> <!-- Search Filter and to search in particular column add property to filter such as search_value.name to search in name -->
+	<br>
+	<br>
+	Exact Match : <input type="checkbox" ng-model="exactmatch" />
+	<br>
+	<br>	
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th ng-hide="hide_likes">Likes</th>
+				<th>Dislikes</th>
+				<th>Buttons</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat ="tech in technologies |limitTo:row_count | orderBy:sortby |filter: search_value:exactmatch"> <!-- Filters -->
+				<td>{{ tech.name }}</td>
+				<td ng-hide="hide_likes">{{ tech.likes }}</td>
+				<td>{{ tech.dislikes }}</td>
+				<td>{{ tech.price|currency:"Rs " }}</td>
+				<td>
+					<input type="button" Value="increase value" ng-click="incrementlikes(tech)" />
+					<input type="button" Value="increase dislikes" ng-click="incrementdislikes(tech)" /> <!-- Event -->
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<br>
+	10 + 20 = {{ 10 +20 }}
+	<div>
+		<br>
+		{{ employee.firstname }}
+		<br>
+		<img ng-src = "{{ employee.image }}" alt = "image is unable to load" style ="height:200px; width :200px;" /> 
+		<br>
+		<input type="text" ng-model="Enjoy" />
+	<br>
+	{{ Enjoy }} <!-- Two way binding -->
+	<br>
+	<br>
+	<input type ="text" ng-model="employee.firstname" />
+		{{ employee.firstname }}
+
+	<!-- Using ng-repeat dirctive -->
+	<li>
+		<ol ng-repeat="fmly in family">
+			<ul>
+				{{ fmly.name }} - index = {{ $index }}
+				{{ fmly.gender }}
+				<li ng-repeat="sibling in fmly.siblings">
+					<ol>{{ sibling.name }} - index = {{ $index }}, ParentIndex= {{ $parent.$index }}</ol>
+					<ol>{{ sibling.Gender }} - index = {{ $index }}, ParentIndex= {{ $parent.$index }}</ol>
+				</li>
+			</ul>	
+		</ol>
+	</li>
+
+	{{ data_result }}
+
+	<input type="button" ng-click="status()" value="Click" />
+	</div>
+		
+	
+</body>
+</html>
